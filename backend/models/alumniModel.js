@@ -39,6 +39,16 @@ const createAlumni = async (
   return result.rows[0];
 };
 
+const getAlumniByEmail = async (email) => {
+  const result = await pool.query(
+    "SELECT * FROM alumni_master WHERE email = $1",
+    [email]
+  );
+
+  return result.rows[0];
+};
+
 module.exports = {
   createAlumni,
+  getAlumniByEmail,
 };
