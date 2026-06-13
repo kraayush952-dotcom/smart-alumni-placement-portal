@@ -6,7 +6,8 @@ const createAlumni = async (
   email,
   mobile,
   batch_year,
-  department
+  department,
+  password
 ) => {
   const query = `
     INSERT INTO alumni_master
@@ -16,9 +17,10 @@ const createAlumni = async (
       email,
       mobile,
       batch_year,
-      department
+      department,
+      password
     )
-    VALUES ($1, $2, $3, $4, $5, $6)
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
     RETURNING *;
   `;
 
@@ -29,6 +31,7 @@ const createAlumni = async (
     mobile,
     batch_year,
     department,
+    password,
   ];
 
   const result = await pool.query(query, values);

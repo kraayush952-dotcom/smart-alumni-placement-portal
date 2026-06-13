@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs");
 const { createAlumni } = require("../models/alumniModel");
 
 const registerAlumni = async (req, res) => {
@@ -9,7 +10,10 @@ const registerAlumni = async (req, res) => {
       mobile,
       batch_year,
       department,
+      password,
     } = req.body;
+
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const alumni = await createAlumni(
       registration_number,
@@ -17,13 +21,16 @@ const registerAlumni = async (req, res) => {
       email,
       mobile,
       batch_year,
-      department
+      department,
+      hashedPassword
     );
+
+    const { password: hashedPasswordField, ...alumniData } = alumni;
 
     res.status(201).json({
       success: true,
       message: "Alumni registered successfully",
-      data: alumni,
+      data: alumniData,
     });
   } catch (error) {
     console.error(error);
