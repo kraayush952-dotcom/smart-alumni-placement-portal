@@ -56,8 +56,56 @@ const getJobById = async (id) => {
   return result.rows[0];
 };
 
+const updateJob = async (
+  id,
+  company_name,
+  job_title,
+  job_description,
+  location,
+  salary_package,
+  application_link
+) => {
+  const query = `
+    UPDATE jobs
+    SET
+      company_name = $2,
+      job_title = $3,
+      job_description = $4,
+      location = $5,
+      salary_package = $6,
+      application_link = $7
+    WHERE id = $1
+    RETURNING *;
+  `;
+
+  const values = [
+    id,
+    company_name,
+    job_title,
+    job_description,
+    location,
+    salary_package,
+    application_link,
+  ];
+
+  const result = await pool.query(query, values);
+
+  return result.rows[0];
+};
+
+const deleteJob = async (id) => {
+  const result = await pool.query(
+    "DELETE FROM jobs WHERE id = $1 RETURNING *",
+    [id]
+  );
+
+  return result.rows[0];
+};
+
 module.exports = {
   createJob,
   getAllJobs,
   getJobById,
+  updateJob,
+  deleteJob,
 };
