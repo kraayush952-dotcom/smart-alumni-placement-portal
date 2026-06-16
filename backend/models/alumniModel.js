@@ -48,7 +48,61 @@ const getAlumniByEmail = async (email) => {
   return result.rows[0];
 };
 
+const getProfileByAlumniId = async (alumniId) => {
+  const result = await pool.query(
+    "SELECT * FROM alumni_profiles WHERE alumni_id = $1",
+    [alumniId]
+  );
+
+  return result.rows[0];
+};
+
+const updateProfile = async (
+  alumniId,
+  current_company,
+  designation,
+  location,
+  linkedin_url,
+  skills,
+  bio,
+  mentorship_available,
+  profile_photo
+) => {
+  const query = `
+    UPDATE alumni_profiles
+    SET
+      current_company = $2,
+      designation = $3,
+      location = $4,
+      linkedin_url = $5,
+      skills = $6,
+      bio = $7,
+      mentorship_available = $8,
+      profile_photo = $9
+    WHERE alumni_id = $1
+    RETURNING *;
+  `;
+
+  const values = [
+    alumniId,
+    current_company,
+    designation,
+    location,
+    linkedin_url,
+    skills,
+    bio,
+    mentorship_available,
+    profile_photo,
+  ];
+
+  const result = await pool.query(query, values);
+
+  return result.rows[0];
+};
+
 module.exports = {
   createAlumni,
   getAlumniByEmail,
+  getProfileByAlumniId,
+  updateProfile,
 };

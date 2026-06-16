@@ -7,17 +7,23 @@ const authMiddleware = require("../middleware/authMiddleware");
 const {
   registerAlumni,
   loginAlumni,
+  getProfile,
+  updateAlumniProfile,
 } = require("../controllers/authController");
 
 router.post("/register", registerAlumni);
 router.post("/login", loginAlumni);
 
-router.get("/profile", authMiddleware, (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "Protected route accessed successfully",
-    user: req.user,
-  });
-});
+router.get(
+  "/profile",
+  authMiddleware,
+  getProfile
+);
+
+router.put(
+  "/profile",
+  authMiddleware,
+  updateAlumniProfile
+);
 
 module.exports = router;

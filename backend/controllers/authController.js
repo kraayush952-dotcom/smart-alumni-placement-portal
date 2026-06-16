@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 const {
   createAlumni,
   getAlumniByEmail,
+  getProfileByAlumniId,
+  updateProfile,
 } = require("../models/alumniModel");
 
 const registerAlumni = async (req, res) => {
@@ -101,7 +103,67 @@ const loginAlumni = async (req, res) => {
   }
 };
 
+const getProfile = async (req, res) => {
+  try {
+    const profile = await getProfileByAlumniId(req.user.id);
+
+    res.status(200).json({
+      success: true,
+      data: profile,
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+const updateAlumniProfile = async (req, res) => {
+  try {
+    const {
+      current_company,
+      designation,
+      location,
+      linkedin_url,
+      skills,
+      bio,
+      mentorship_available,
+      profile_photo,
+    } = req.body;
+
+    const profile = await updateProfile(
+      req.user.id,
+      current_company,
+      designation,
+      location,
+      linkedin_url,
+      skills,
+      bio,
+      mentorship_available,
+      profile_photo
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Profile updated successfully",
+      data: profile,
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   registerAlumni,
   loginAlumni,
+  getProfile,
+  updateAlumniProfile,
 };
