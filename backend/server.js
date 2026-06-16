@@ -8,12 +8,14 @@ const app = express();
 
 const authRoutes = require("./routes/authRoutes");
 const jobRoutes = require("./routes/jobRoutes");
+const internshipRoutes = require("./routes/internshipRoutes");
 
 app.use(cors());
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
+app.use("/api/internships", internshipRoutes);
 
 app.get("/", (req, res) => {
   res.send("Smart Alumni Backend Running 🚀");
