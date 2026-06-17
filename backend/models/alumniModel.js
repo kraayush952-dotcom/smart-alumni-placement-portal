@@ -100,9 +100,59 @@ const updateProfile = async (
   return result.rows[0];
 };
 
+const getAllAlumni = async () => {
+  const result = await pool.query(`
+    SELECT
+      am.id,
+      am.full_name,
+      am.batch_year,
+      am.department,
+      ap.current_company,
+      ap.designation,
+      ap.mentorship_available
+    FROM alumni_master am
+    LEFT JOIN alumni_profiles ap
+      ON am.id = ap.alumni_id
+    ORDER BY am.id DESC
+  `);
+
+  return result.rows;
+};
+
+const getAlumniById = async (id) => {
+  const result = await pool.query(
+    `
+    SELECT
+      am.id,
+      am.full_name,
+      am.email,
+      am.mobile,
+      am.batch_year,
+      am.department,
+      ap.current_company,
+      ap.designation,
+      ap.location,
+      ap.linkedin_url,
+      ap.skills,
+      ap.bio,
+      ap.mentorship_available,
+      ap.profile_photo
+    FROM alumni_master am
+    LEFT JOIN alumni_profiles ap
+      ON am.id = ap.alumni_id
+    WHERE am.id = $1
+    `,
+    [id]
+  );
+
+  return result.rows[0];
+};
+
 module.exports = {
   createAlumni,
   getAlumniByEmail,
   getProfileByAlumniId,
   updateProfile,
+  getAllAlumni,
+  getAlumniById,
 };
