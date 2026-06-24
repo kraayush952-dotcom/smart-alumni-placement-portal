@@ -55,6 +55,8 @@ const loginAlumni = async (req, res) => {
 
     const alumni = await getAlumniByEmail(email);
 
+    console.log("ALUMNI DATA:", alumni);
+
     if (!alumni) {
       return res.status(404).json({
         success: false,
@@ -67,6 +69,8 @@ const loginAlumni = async (req, res) => {
       alumni.password
     );
 
+    console.log("PASSWORD MATCH:", isMatch);
+
     if (!isMatch) {
       return res.status(401).json({
         success: false,
@@ -78,6 +82,7 @@ const loginAlumni = async (req, res) => {
       {
         id: alumni.id,
         email: alumni.email,
+        role: "alumni",
       },
       process.env.JWT_SECRET,
       {
