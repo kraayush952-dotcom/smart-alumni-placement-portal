@@ -12,6 +12,7 @@ const internshipRoutes = require("./routes/internshipRoutes");
 const studentRoutes = require("./routes/studentRoutes");
 const alumniRoutes = require("./routes/alumniRoutes");
 const mentorshipRoutes = require("./routes/mentorshipRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 app.use(cors());
 app.use(express.json());
@@ -22,6 +23,7 @@ app.use("/api/internships", internshipRoutes);
 app.use("/api/students", studentRoutes);
 app.use("/api/alumni", alumniRoutes);
 app.use("/api/mentorship", mentorshipRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.get("/", (req, res) => {
   res.send("Smart Alumni Backend Running 🚀");
