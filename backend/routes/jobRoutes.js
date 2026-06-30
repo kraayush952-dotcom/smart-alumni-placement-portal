@@ -5,6 +5,14 @@ const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 
 const {
+  createJobValidation,
+} = require("../validations/jobValidation");
+
+const validate = require(
+  "../middleware/validationMiddleware"
+);
+
+const {
   createJobPost,
   fetchAllJobs,
   fetchJobById,
@@ -14,6 +22,8 @@ const {
 router.post(
   "/",
   authMiddleware,
+  createJobValidation,
+  validate,
   createJobPost
 );
 

@@ -5,6 +5,14 @@ const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 
 const {
+  createInternshipValidation,
+} = require("../validations/internshipValidation");
+
+const validate = require(
+  "../middleware/validationMiddleware"
+);
+
+const {
   createInternshipPost,
   fetchAllInternships,
   fetchInternshipById,
@@ -14,6 +22,8 @@ const {
 router.post(
   "/",
   authMiddleware,
+  createInternshipValidation,
+  validate,
   createInternshipPost
 );
 
