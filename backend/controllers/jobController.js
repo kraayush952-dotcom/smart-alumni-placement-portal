@@ -3,7 +3,7 @@ const {
   getAllJobs,
   getJobById,
   updateJob,
-  deleteJob,
+  updateJobStatus,
 } = require("../models/jobModel");
 
 const createJobPost = async (req, res) => {
@@ -122,13 +122,40 @@ const updateJobPost = async (req, res) => {
   }
 };
 
-const deleteJobPost = async (req, res) => {
+const updateJobStatusController = async (
+  req,
+  res
+) => {
   try {
-    const job = await deleteJob(req.params.id);
+    const { status } = req.body;
+
+    if (
+      status !== "ACTIVE" &&
+      status !== "ARCHIVED" &&
+      status !== "EXPIRED"
+    ) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Status must be ACTIVE, ARCHIVED or EXPIRED",
+      });
+    }
+
+    const job = await updateJobStatus(
+      req.params.id,
+      status
+    );
+
+    if (!job) {
+      return res.status(404).json({
+        success: false,
+        message: "Job not found",
+      });
+    }
 
     res.status(200).json({
       success: true,
-      message: "Job deleted successfully",
+      message: "Job status updated successfully",
       data: job,
     });
   } catch (error) {
@@ -146,5 +173,5 @@ module.exports = {
   fetchAllJobs,
   fetchJobById,
   updateJobPost,
-  deleteJobPost,
+  updateJobStatusController,
 };

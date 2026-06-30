@@ -93,10 +93,18 @@ const updateJob = async (
   return result.rows[0];
 };
 
-const deleteJob = async (id) => {
+const updateJobStatus = async (
+  id,
+  status
+) => {
   const result = await pool.query(
-    "DELETE FROM jobs WHERE id = $1 RETURNING *",
-    [id]
+    `
+    UPDATE jobs
+    SET status = $2
+    WHERE id = $1
+    RETURNING *;
+    `,
+    [id, status]
   );
 
   return result.rows[0];
@@ -107,5 +115,5 @@ module.exports = {
   getAllJobs,
   getJobById,
   updateJob,
-  deleteJob,
+  updateJobStatus,
 };

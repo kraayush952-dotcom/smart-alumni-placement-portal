@@ -9,7 +9,6 @@ const {
   fetchAllJobs,
   fetchJobById,
   updateJobPost,
-  deleteJobPost,
 } = require("../controllers/jobController");
 
 router.post(
@@ -32,12 +31,6 @@ router.put(
   "/:id",
   authMiddleware,
   updateJobPost
-);
-
-router.delete(
-  "/:id",
-  authMiddleware,
-  deleteJobPost
 );
 
 module.exports = router;
