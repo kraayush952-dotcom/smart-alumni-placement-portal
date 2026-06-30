@@ -56,6 +56,21 @@ const getJobById = async (id) => {
   return result.rows[0];
 };
 
+const getJobOwner = async (id) => {
+  const result = await pool.query(
+    `
+    SELECT
+      id,
+      alumni_id
+    FROM jobs
+    WHERE id = $1
+    `,
+    [id]
+  );
+
+  return result.rows[0];
+};
+
 const updateJob = async (
   id,
   company_name,
@@ -114,6 +129,7 @@ module.exports = {
   createJob,
   getAllJobs,
   getJobById,
+  getJobOwner,
   updateJob,
   updateJobStatus,
 };

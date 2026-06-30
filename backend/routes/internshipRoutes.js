@@ -9,7 +9,6 @@ const {
   fetchAllInternships,
   fetchInternshipById,
   updateInternshipPost,
-  deleteInternshipPost,
 } = require("../controllers/internshipController");
 
 router.post(
@@ -32,12 +31,6 @@ router.put(
   "/:id",
   authMiddleware,
   updateInternshipPost
-);
-
-router.delete(
-  "/:id",
-  authMiddleware,
-  deleteInternshipPost
 );
 
 module.exports = router;

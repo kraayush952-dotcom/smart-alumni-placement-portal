@@ -12,9 +12,14 @@ const {
   getAlumni,
   getAlumniDetails,
   updateAlumniVerification,
+
   getAdminJobs,
   getAdminJobDetails,
   updateAdminJobStatus,
+
+  getAdminInternships,
+  getAdminInternshipDetails,
+  updateAdminInternshipStatus,
 } = require("../controllers/adminController");
 
 router.post(
@@ -74,6 +79,24 @@ router.patch(
   "/jobs/:id/status",
   adminMiddleware,
   updateAdminJobStatus
+);
+
+router.get(
+  "/internships",
+  adminMiddleware,
+  getAdminInternships
+);
+
+router.get(
+  "/internships/:id",
+  adminMiddleware,
+  getAdminInternshipDetails
+);
+
+router.patch(
+  "/internships/:id/status",
+  adminMiddleware,
+  updateAdminInternshipStatus
 );
 
 module.exports = router;

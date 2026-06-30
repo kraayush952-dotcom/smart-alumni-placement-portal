@@ -2,6 +2,7 @@ const {
   createJob,
   getAllJobs,
   getJobById,
+  getJobOwner,
   updateJob,
   updateJobStatus,
 } = require("../models/jobModel");
@@ -96,6 +97,25 @@ const updateJobPost = async (req, res) => {
       salary_package,
       application_link,
     } = req.body;
+
+    const jobOwner = await getJobOwner(
+      req.params.id
+    );
+
+    if (!jobOwner) {
+      return res.status(404).json({
+        success: false,
+        message: "Job not found",
+      });
+    }
+
+    if (jobOwner.alumni_id !== req.user.id) {
+      return res.status(403).json({
+        success: false,
+        message:
+          "You are not authorized to update this job",
+      });
+    }
 
     const job = await updateJob(
       req.params.id,

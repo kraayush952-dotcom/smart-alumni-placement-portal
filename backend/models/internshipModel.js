@@ -56,6 +56,21 @@ const getInternshipById = async (id) => {
   return result.rows[0];
 };
 
+const getInternshipOwner = async (id) => {
+  const result = await pool.query(
+    `
+    SELECT
+      id,
+      alumni_id
+    FROM internships
+    WHERE id = $1
+    `,
+    [id]
+  );
+
+  return result.rows[0];
+};
+
 const updateInternship = async (
   id,
   company_name,
@@ -93,10 +108,72 @@ const updateInternship = async (
   return result.rows[0];
 };
 
-const deleteInternship = async (id) => {
+const getAllInternshipsForAdmin = async () => {
+  const result = await pool.query(`
+    SELECT
+      i.id,
+      i.company_name,
+      i.internship_title,
+      i.duration,
+      i.stipend,
+      i.status,
+      i.created_at,
+      am.full_name AS posted_by,
+      am.email AS alumni_email
+    FROM internships i
+    JOIN alumni_master am
+      ON i.alumni_id = am.id
+    ORDER BY i.created_at DESC;
+  `);
+
+  return result.rows;
+};
+
+const getInternshipDetailsForAdmin = async (id) => {
   const result = await pool.query(
-    "DELETE FROM internships WHERE id = $1 RETURNING *",
+    `
+    SELECT
+      i.*,
+
+      am.id AS alumni_id,
+      am.full_name,
+      am.email,
+      am.mobile,
+      am.batch_year,
+      am.department,
+
+      ap.current_company,
+      ap.designation,
+      ap.linkedin_url
+
+    FROM internships i
+
+    JOIN alumni_master am
+      ON i.alumni_id = am.id
+
+    LEFT JOIN alumni_profiles ap
+      ON am.id = ap.alumni_id
+
+    WHERE i.id = $1;
+    `,
     [id]
+  );
+
+  return result.rows[0];
+};
+
+const updateInternshipStatus = async (
+  id,
+  status
+) => {
+  const result = await pool.query(
+    `
+    UPDATE internships
+    SET status = $2
+    WHERE id = $1
+    RETURNING *;
+    `,
+    [id, status]
   );
 
   return result.rows[0];
@@ -106,6 +183,10 @@ module.exports = {
   createInternship,
   getAllInternships,
   getInternshipById,
+  getInternshipOwner,
   updateInternship,
-  deleteInternship,
+
+  getAllInternshipsForAdmin,
+  getInternshipDetailsForAdmin,
+  updateInternshipStatus,
 };

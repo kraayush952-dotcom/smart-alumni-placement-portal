@@ -2,8 +2,11 @@ const {
   createInternship,
   getAllInternships,
   getInternshipById,
+  getInternshipOwner,
   updateInternship,
-  deleteInternship,
+  getAllInternshipsForAdmin,
+  getInternshipDetailsForAdmin,
+  updateInternshipStatus,
 } = require("../models/internshipModel");
 
 const createInternshipPost = async (req, res) => {
@@ -97,6 +100,24 @@ const updateInternshipPost = async (req, res) => {
       application_link,
     } = req.body;
 
+    const internshipOwner =
+      await getInternshipOwner(req.params.id);
+
+    if (!internshipOwner) {
+      return res.status(404).json({
+        success: false,
+        message: "Internship not found",
+      });
+    }
+
+    if (internshipOwner.alumni_id !== req.user.id) {
+      return res.status(403).json({
+        success: false,
+        message:
+          "You are not authorized to update this internship",
+      });
+    }
+
     const internship = await updateInternship(
       req.params.id,
       company_name,
@@ -122,13 +143,95 @@ const updateInternshipPost = async (req, res) => {
   }
 };
 
-const deleteInternshipPost = async (req, res) => {
+const getAdminInternships = async (req, res) => {
   try {
-    const internship = await deleteInternship(req.params.id);
+    const internships =
+      await getAllInternshipsForAdmin();
 
     res.status(200).json({
       success: true,
-      message: "Internship deleted successfully",
+      count: internships.length,
+      data: internships,
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+const getAdminInternshipDetails = async (
+  req,
+  res
+) => {
+  try {
+    const internship =
+      await getInternshipDetailsForAdmin(
+        req.params.id
+      );
+
+    if (!internship) {
+      return res.status(404).json({
+        success: false,
+        message: "Internship not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: internship,
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+const updateAdminInternshipStatus = async (
+  req,
+  res
+) => {
+  try {
+    const { status } = req.body;
+
+    const allowedStatus = [
+      "ACTIVE",
+      "ARCHIVED",
+      "EXPIRED",
+    ];
+
+    if (!allowedStatus.includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Status must be ACTIVE, ARCHIVED or EXPIRED",
+      });
+    }
+
+    const internship =
+      await updateInternshipStatus(
+        req.params.id,
+        status
+      );
+
+    if (!internship) {
+      return res.status(404).json({
+        success: false,
+        message: "Internship not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message:
+        "Internship status updated successfully",
       data: internship,
     });
   } catch (error) {
@@ -146,5 +249,8 @@ module.exports = {
   fetchAllInternships,
   fetchInternshipById,
   updateInternshipPost,
-  deleteInternshipPost,
+
+  getAdminInternships,
+  getAdminInternshipDetails,
+  updateAdminInternshipStatus,
 };
