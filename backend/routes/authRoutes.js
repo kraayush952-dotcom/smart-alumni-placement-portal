@@ -5,14 +5,34 @@ const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 
 const {
+  registerValidation,
+  loginValidation,
+} = require("../validations/authValidation");
+
+const validate = require(
+  "../middleware/validationMiddleware"
+);
+
+const {
   registerAlumni,
   loginAlumni,
   getProfile,
   updateAlumniProfile,
 } = require("../controllers/authController");
 
-router.post("/register", registerAlumni);
-router.post("/login", loginAlumni);
+router.post(
+  "/register",
+  registerValidation,
+  validate,
+  registerAlumni
+);
+
+router.post(
+  "/login",
+  loginValidation,
+  validate,
+  loginAlumni
+);
 
 router.get(
   "/profile",
