@@ -1,6 +1,7 @@
 const {
   createInternship,
   getAllInternships,
+  searchInternships,
   getInternshipById,
   getInternshipOwner,
   updateInternship,
@@ -47,7 +48,11 @@ const createInternshipPost = async (req, res) => {
 
 const fetchAllInternships = async (req, res) => {
   try {
-    const internships = await getAllInternships();
+    const { search } = req.query;
+
+    const internships = search
+      ? await searchInternships(search)
+      : await getAllInternships();
 
     res.status(200).json({
       success: true,

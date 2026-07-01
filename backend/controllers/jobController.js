@@ -1,6 +1,7 @@
 const {
   createJob,
   getAllJobs,
+  searchJobs,
   getJobById,
   getJobOwner,
   updateJob,
@@ -45,7 +46,11 @@ const createJobPost = async (req, res) => {
 
 const fetchAllJobs = async (req, res) => {
   try {
-    const jobs = await getAllJobs();
+    const { search } = req.query;
+
+    const jobs = search
+      ? await searchJobs(search)
+      : await getAllJobs();
 
     res.status(200).json({
       success: true,

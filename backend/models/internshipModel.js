@@ -47,6 +47,23 @@ const getAllInternships = async () => {
   return result.rows;
 };
 
+const searchInternships = async (search) => {
+  const result = await pool.query(
+    `
+    SELECT *
+    FROM internships
+    WHERE
+      company_name ILIKE $1
+      OR internship_title ILIKE $1
+      OR duration ILIKE $1
+    ORDER BY created_at DESC
+    `,
+    [`%${search}%`]
+  );
+
+  return result.rows;
+};
+
 const getInternshipById = async (id) => {
   const result = await pool.query(
     "SELECT * FROM internships WHERE id = $1",
@@ -182,6 +199,7 @@ const updateInternshipStatus = async (
 module.exports = {
   createInternship,
   getAllInternships,
+  searchInternships,
   getInternshipById,
   getInternshipOwner,
   updateInternship,

@@ -47,6 +47,23 @@ const getAllJobs = async () => {
   return result.rows;
 };
 
+const searchJobs = async (search) => {
+  const result = await pool.query(
+    `
+    SELECT *
+    FROM jobs
+    WHERE
+      company_name ILIKE $1
+      OR job_title ILIKE $1
+      OR location ILIKE $1
+    ORDER BY created_at DESC
+    `,
+    [`%${search}%`]
+  );
+
+  return result.rows;
+};
+
 const getJobById = async (id) => {
   const result = await pool.query(
     "SELECT * FROM jobs WHERE id = $1",
@@ -128,6 +145,7 @@ const updateJobStatus = async (
 module.exports = {
   createJob,
   getAllJobs,
+  searchJobs,
   getJobById,
   getJobOwner,
   updateJob,
