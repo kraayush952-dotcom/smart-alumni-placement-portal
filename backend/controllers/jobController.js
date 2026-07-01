@@ -1,6 +1,7 @@
 const {
   createJob,
   getAllJobs,
+  getTotalJobs,
   searchJobs,
   getJobById,
   getJobOwner,
@@ -48,12 +49,26 @@ const fetchAllJobs = async (req, res) => {
   try {
     const { search } = req.query;
 
-    const jobs = search
-      ? await searchJobs(search)
-      : await getAllJobs();
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    let jobs;
+    let total;
+
+    if (search) {
+      jobs = await searchJobs(search);
+      total = jobs.length;
+    } else {
+      jobs = await getAllJobs(page, limit);
+      total = await getTotalJobs();
+    }
 
     res.status(200).json({
       success: true,
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
       count: jobs.length,
       data: jobs,
     });

@@ -1,6 +1,7 @@
 const {
   createInternship,
   getAllInternships,
+  getTotalInternships,
   searchInternships,
   getInternshipById,
   getInternshipOwner,
@@ -50,12 +51,26 @@ const fetchAllInternships = async (req, res) => {
   try {
     const { search } = req.query;
 
-    const internships = search
-      ? await searchInternships(search)
-      : await getAllInternships();
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    let internships;
+    let total;
+
+    if (search) {
+      internships = await searchInternships(search);
+      total = internships.length;
+    } else {
+      internships = await getAllInternships(page, limit);
+      total = await getTotalInternships();
+    }
 
     res.status(200).json({
       success: true,
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
       count: internships.length,
       data: internships,
     });
@@ -255,7 +270,7 @@ module.exports = {
   fetchInternshipById,
   updateInternshipPost,
 
-  getAdminInternships,
   getAdminInternshipDetails,
+  getAdminInternships,
   updateAdminInternshipStatus,
 };

@@ -39,12 +39,35 @@ const createJob = async (
   return result.rows[0];
 };
 
-const getAllJobs = async () => {
+const getAllJobs = async (
+  page = 1,
+  limit = 10
+) => {
+  const offset = (page - 1) * limit;
+
   const result = await pool.query(
-    "SELECT * FROM jobs ORDER BY created_at DESC"
+    `
+    SELECT *
+    FROM jobs
+    ORDER BY created_at DESC
+    LIMIT $1
+    OFFSET $2
+    `,
+    [limit, offset]
   );
 
   return result.rows;
+};
+
+const getTotalJobs = async () => {
+  const result = await pool.query(
+    `
+    SELECT COUNT(*) AS total
+    FROM jobs
+    `
+  );
+
+  return parseInt(result.rows[0].total);
 };
 
 const searchJobs = async (search) => {
@@ -145,6 +168,7 @@ const updateJobStatus = async (
 module.exports = {
   createJob,
   getAllJobs,
+  getTotalJobs,
   searchJobs,
   getJobById,
   getJobOwner,

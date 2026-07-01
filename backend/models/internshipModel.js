@@ -39,12 +39,35 @@ const createInternship = async (
   return result.rows[0];
 };
 
-const getAllInternships = async () => {
+const getAllInternships = async (
+  page = 1,
+  limit = 10
+) => {
+  const offset = (page - 1) * limit;
+
   const result = await pool.query(
-    "SELECT * FROM internships ORDER BY created_at DESC"
+    `
+    SELECT *
+    FROM internships
+    ORDER BY created_at DESC
+    LIMIT $1
+    OFFSET $2
+    `,
+    [limit, offset]
   );
 
   return result.rows;
+};
+
+const getTotalInternships = async () => {
+  const result = await pool.query(
+    `
+    SELECT COUNT(*) AS total
+    FROM internships
+    `
+  );
+
+  return parseInt(result.rows[0].total);
 };
 
 const searchInternships = async (search) => {
@@ -199,6 +222,7 @@ const updateInternshipStatus = async (
 module.exports = {
   createInternship,
   getAllInternships,
+  getTotalInternships,
   searchInternships,
   getInternshipById,
   getInternshipOwner,
