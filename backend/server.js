@@ -3,6 +3,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const pool = require("./config/db");
+const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
 
@@ -28,6 +29,8 @@ app.use("/api/admin", adminRoutes);
 app.get("/", (req, res) => {
   res.send("Smart Alumni Backend Running 🚀");
 });
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
