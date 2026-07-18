@@ -48,6 +48,15 @@ const getAlumniByEmail = async (email) => {
   return result.rows[0];
 };
 
+const getAlumniByMobile = async (mobile) => {
+  const result = await pool.query(
+    "SELECT * FROM alumni_master WHERE mobile = $1",
+    [mobile]
+  );
+
+  return result.rows[0];
+};
+
 const getProfileByAlumniId = async (alumniId) => {
   const result = await pool.query(
     "SELECT * FROM alumni_profiles WHERE alumni_id = $1",
@@ -151,6 +160,7 @@ const getAlumniById = async (id) => {
 module.exports = {
   createAlumni,
   getAlumniByEmail,
+  getAlumniByMobile,
   getProfileByAlumniId,
   updateProfile,
   getAllAlumni,

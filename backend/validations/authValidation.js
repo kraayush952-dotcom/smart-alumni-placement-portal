@@ -1,6 +1,11 @@
 const { body } = require("express-validator");
 
 const registerValidation = [
+  body("role")
+    .trim()
+    .isIn(["Student", "Alumni"])
+    .withMessage("Valid role is required"),
+
   body("registration_number")
     .trim()
     .notEmpty()
@@ -41,6 +46,11 @@ const registerValidation = [
 ];
 
 const loginValidation = [
+  body("role")
+    .trim()
+    .isIn(["Student", "Alumni", "Admin"])
+    .withMessage("Valid role is required"),
+
   body("email")
     .trim()
     .isEmail()

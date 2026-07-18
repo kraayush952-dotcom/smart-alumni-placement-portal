@@ -48,6 +48,15 @@ const getStudentByEmail = async (email) => {
   return result.rows[0];
 };
 
+const getStudentByMobile = async (mobile) => {
+  const result = await pool.query(
+    "SELECT * FROM students WHERE mobile = $1",
+    [mobile]
+  );
+
+  return result.rows[0];
+};
+
 const getStudentById = async (id) => {
   const result = await pool.query(
     "SELECT * FROM students WHERE id = $1",
@@ -60,5 +69,6 @@ const getStudentById = async (id) => {
 module.exports = {
   createStudent,
   getStudentByEmail,
+  getStudentByMobile,
   getStudentById,
 };

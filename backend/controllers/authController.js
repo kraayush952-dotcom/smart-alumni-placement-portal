@@ -4,13 +4,25 @@ const jwt = require("jsonwebtoken");
 const {
   createAlumni,
   getAlumniByEmail,
+  getAlumniByMobile,
   getProfileByAlumniId,
   updateProfile,
 } = require("../models/alumniModel");
 
-const registerAlumni = async (req, res) => {
+const {
+  createStudent,
+  getStudentByEmail,
+  getStudentByMobile,
+} = require("../models/studentModel");
+
+const {
+  getAdminByEmail,
+} = require("../models/adminModel");
+
+const register = async (req, res) => {
   try {
     const {
+      role,
       registration_number,
       full_name,
       email,
@@ -20,24 +32,73 @@ const registerAlumni = async (req, res) => {
       password,
     } = req.body;
 
+    let existingEmail = null;
+    let existingMobile = null;
+
+    if (role === "Student") {
+      existingEmail = await getStudentByEmail(email);
+      existingMobile = await getStudentByMobile(mobile);
+    } else if (role === "Alumni") {
+      existingEmail = await getAlumniByEmail(email);
+      existingMobile = await getAlumniByMobile(mobile);
+    }
+
+    if (existingEmail) {
+      return res.status(409).json({
+        success: false,
+        message: "Email already exists",
+      });
+    }
+
+    if (existingMobile) {
+      return res.status(409).json({
+        success: false,
+        message: "Mobile number already exists",
+      });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const alumni = await createAlumni(
-      registration_number,
-      full_name,
-      email,
-      mobile,
-      batch_year,
-      department,
-      hashedPassword
-    );
+    let user;
 
-    const { password: hiddenPassword, ...alumniData } = alumni;
+    switch (role) {
+      case "Student":
+        user = await createStudent(
+          registration_number,
+          full_name,
+          email,
+          mobile,
+          batch_year,
+          department,
+          hashedPassword
+        );
+        break;
+
+      case "Alumni":
+        user = await createAlumni(
+          registration_number,
+          full_name,
+          email,
+          mobile,
+          batch_year,
+          department,
+          hashedPassword
+        );
+        break;
+
+      default:
+        return res.status(400).json({
+          success: false,
+          message: "Invalid role",
+        });
+    }
+
+    const { password: hiddenPassword, ...userData } = user;
 
     res.status(201).json({
       success: true,
-      message: "Alumni registered successfully",
-      data: alumniData,
+      message: `${role} registered successfully`,
+      data: userData,
     });
   } catch (error) {
     console.error(error);
@@ -49,27 +110,47 @@ const registerAlumni = async (req, res) => {
   }
 };
 
-const loginAlumni = async (req, res) => {
+const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
 
-    const alumni = await getAlumniByEmail(email);
+    let user = null;
+    let userRole = "";
 
-    console.log("ALUMNI DATA:", alumni);
+    switch (role) {
+      case "Student":
+        user = await getStudentByEmail(email);
+        userRole = "student";
+        break;
 
-    if (!alumni) {
+      case "Alumni":
+        user = await getAlumniByEmail(email);
+        userRole = "alumni";
+        break;
+
+      case "Admin":
+        user = await getAdminByEmail(email);
+        userRole = "admin";
+        break;
+
+      default:
+        return res.status(400).json({
+          success: false,
+          message: "Invalid role",
+        });
+    }
+
+    if (!user) {
       return res.status(404).json({
         success: false,
-        message: "Alumni not found",
+        message: `${role} not found`,
       });
     }
 
     const isMatch = await bcrypt.compare(
       password,
-      alumni.password
+      user.password
     );
-
-    console.log("PASSWORD MATCH:", isMatch);
 
     if (!isMatch) {
       return res.status(401).json({
@@ -80,9 +161,9 @@ const loginAlumni = async (req, res) => {
 
     const token = jwt.sign(
       {
-        id: alumni.id,
-        email: alumni.email,
-        role: "alumni",
+        id: user.id,
+        email: user.email,
+        role: userRole,
       },
       process.env.JWT_SECRET,
       {
@@ -90,14 +171,15 @@ const loginAlumni = async (req, res) => {
       }
     );
 
-    const { password: hiddenPassword, ...alumniData } = alumni;
+    const { password: hiddenPassword, ...userData } = user;
 
     res.status(200).json({
       success: true,
       message: "Login successful",
       token,
-      data: alumniData,
+      data: userData,
     });
+
   } catch (error) {
     console.error(error);
 
@@ -167,8 +249,8 @@ const updateAlumniProfile = async (req, res) => {
 };
 
 module.exports = {
-  registerAlumni,
-  loginAlumni,
+  register,
+  login,
   getProfile,
   updateAlumniProfile,
 };

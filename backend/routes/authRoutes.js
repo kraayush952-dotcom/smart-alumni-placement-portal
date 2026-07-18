@@ -14,8 +14,8 @@ const validate = require(
 );
 
 const {
-  registerAlumni,
-  loginAlumni,
+  register,
+  login,
   getProfile,
   updateAlumniProfile,
 } = require("../controllers/authController");
@@ -24,14 +24,14 @@ router.post(
   "/register",
   registerValidation,
   validate,
-  registerAlumni
+  register
 );
 
 router.post(
   "/login",
   loginValidation,
   validate,
-  loginAlumni
+  login
 );
 
 router.get(
