@@ -10,4 +10,7 @@ export interface Job {
   postedAt: string;
   featured: boolean;
   skills: string[];
+
+  description: string;
+  requirements: string[];
 }

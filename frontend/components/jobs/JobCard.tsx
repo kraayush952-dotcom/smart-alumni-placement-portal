@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Building2,
   MapPin,
@@ -5,7 +6,6 @@ import {
   IndianRupee,
   Clock3,
   Heart,
-  ArrowRight,
   Star,
 } from "lucide-react";
 
@@ -19,17 +19,18 @@ export default function JobCard({ job }: JobCardProps) {
   return (
     <div
       className="
-      rounded-2xl
-      border
-      bg-white
-      p-6
-      shadow-sm
-      transition-all
-      duration-300
-      hover:-translate-y-1
-      hover:shadow-xl
+        rounded-2xl
+        border
+        bg-white
+        p-6
+        shadow-sm
+        transition-all
+        duration-300
+        hover:-translate-y-1
+        hover:shadow-xl
       "
     >
+      {/* Header */}
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100">
@@ -37,7 +38,9 @@ export default function JobCard({ job }: JobCardProps) {
           </div>
 
           <div>
-            <h3 className="font-semibold text-gray-900">{job.company}</h3>
+            <h3 className="font-semibold text-gray-900">
+              {job.company}
+            </h3>
 
             <p className="text-lg font-bold text-gray-800">
               {job.title}
@@ -63,6 +66,7 @@ export default function JobCard({ job }: JobCardProps) {
         </div>
       </div>
 
+      {/* Meta */}
       <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-gray-600">
         <div className="flex items-center gap-1">
           <MapPin className="h-4 w-4" />
@@ -85,6 +89,7 @@ export default function JobCard({ job }: JobCardProps) {
         </div>
       </div>
 
+      {/* Skills */}
       <div className="mt-4 flex flex-wrap gap-2">
         {job.skills.map((skill) => (
           <span
@@ -96,14 +101,18 @@ export default function JobCard({ job }: JobCardProps) {
         ))}
       </div>
 
+      {/* Footer */}
       <div className="mt-6 flex justify-end gap-3">
-        <button className="rounded-lg border px-4 py-2 hover:bg-muted transition">
+        <button className="rounded-lg border px-4 py-2 transition hover:bg-muted">
           Save
         </button>
 
-        <button className="rounded-lg bg-primary px-4 py-2 text-white hover:opacity-90 transition">
+        <Link
+          href={`/student/jobs/${job.id}`}
+          className="rounded-lg bg-primary px-4 py-2 text-white transition hover:opacity-90"
+        >
           Apply Now
-        </button>
+        </Link>
       </div>
     </div>
   );
