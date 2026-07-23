@@ -6,4 +6,8 @@ export interface Job {
   type: string;
   salary: string;
   match: number;
+
+  postedAt: string;
+  featured: boolean;
+  skills: string[];
 }

@@ -9,6 +9,10 @@ export const jobs: Job[] = [
     type: "Internship",
     salary: "₹12 LPA",
     match: 92,
+
+    postedAt: "2 days ago",
+    featured: true,
+    skills: ["React", "Java", "Spring Boot"],
   },
   {
     id: 2,
@@ -18,6 +22,10 @@ export const jobs: Job[] = [
     type: "Full Time",
     salary: "₹10 LPA",
     match: 88,
+
+    postedAt: "1 day ago",
+    featured: false,
+    skills: ["React", "Next.js", "TypeScript"],
   },
   {
     id: 3,
@@ -27,5 +35,9 @@ export const jobs: Job[] = [
     type: "Full Time",
     salary: "₹14 LPA",
     match: 95,
+
+    postedAt: "Today",
+    featured: true,
+    skills: ["Java", "Spring Boot", "AWS"],
   },
 ];

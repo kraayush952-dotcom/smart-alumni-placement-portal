@@ -1,28 +1,46 @@
-export default function JobFilters() {
+interface JobFiltersProps {
+  location: string;
+  jobType: string;
+  onLocationChange: (value: string) => void;
+  onJobTypeChange: (value: string) => void;
+  onReset: () => void;
+}
+
+export default function JobFilters({
+  location,
+  jobType,
+  onLocationChange,
+  onJobTypeChange,
+  onReset,
+}: JobFiltersProps) {
   return (
     <div className="flex flex-wrap gap-3">
-      <select className="rounded-lg border px-4 py-2">
-        <option>Location</option>
-        <option>Bangalore</option>
-        <option>Hyderabad</option>
-        <option>Remote</option>
+      <select
+        value={location}
+        onChange={(e) => onLocationChange(e.target.value)}
+        className="rounded-lg border px-4 py-2"
+      >
+        <option value="">All Locations</option>
+        <option value="Bangalore">Bangalore</option>
+        <option value="Hyderabad">Hyderabad</option>
+        <option value="Remote">Remote</option>
       </select>
 
-      <select className="rounded-lg border px-4 py-2">
-        <option>Experience</option>
-        <option>Fresher</option>
-        <option>1+ Years</option>
-        <option>2+ Years</option>
+      <select
+        value={jobType}
+        onChange={(e) => onJobTypeChange(e.target.value)}
+        className="rounded-lg border px-4 py-2"
+      >
+        <option value="">All Job Types</option>
+        <option value="Full Time">Full Time</option>
+        <option value="Internship">Internship</option>
+        <option value="Part Time">Part Time</option>
       </select>
 
-      <select className="rounded-lg border px-4 py-2">
-        <option>Job Type</option>
-        <option>Full Time</option>
-        <option>Internship</option>
-        <option>Part Time</option>
-      </select>
-
-      <button className="rounded-lg border px-4 py-2 hover:bg-muted transition">
+      <button
+        onClick={onReset}
+        className="rounded-lg border px-4 py-2 transition hover:bg-muted"
+      >
         Reset
       </button>
     </div>

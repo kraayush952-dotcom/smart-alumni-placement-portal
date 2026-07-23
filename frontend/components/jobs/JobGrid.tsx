@@ -1,7 +1,11 @@
 import JobCard from "./JobCard";
-import { jobs } from "@/data/jobs";
+import { Job } from "@/types/job";
 
-export default function JobGrid() {
+interface JobGridProps {
+  jobs: Job[];
+}
+
+export default function JobGrid({ jobs }: JobGridProps) {
   return (
     <div className="space-y-4">
       {jobs.map((job) => (
