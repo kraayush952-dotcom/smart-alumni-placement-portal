@@ -8,6 +8,10 @@ export const applications: Application[] = [
     location: "Bangalore",
     status: "Pending",
     appliedAt: "20 Jul 2026",
+    description:
+      "Your application is currently under review by the Google hiring team. If shortlisted, you will receive an interview invitation via email.",
+    recruiter: "Priya Sharma",
+    email: "careers@google.com",
   },
 
   {
@@ -17,6 +21,10 @@ export const applications: Application[] = [
     location: "Hyderabad",
     status: "Shortlisted",
     appliedAt: "18 Jul 2026",
+    description:
+      "Congratulations! Your profile has been shortlisted. Our recruitment team will contact you soon for the next interview round.",
+    recruiter: "Rahul Verma",
+    email: "careers@microsoft.com",
   },
 
   {
@@ -26,5 +34,9 @@ export const applications: Application[] = [
     location: "Chennai",
     status: "Rejected",
     appliedAt: "15 Jul 2026",
+    description:
+      "Unfortunately, your application was not selected for this role. You are encouraged to apply for future opportunities.",
+    recruiter: "Ananya Singh",
+    email: "careers@amazon.com",
   },
 ];

@@ -10,4 +10,9 @@ export interface Application {
   location: string;
   status: ApplicationStatus;
   appliedAt: string;
+
+  // Details Page
+  description: string;
+  recruiter: string;
+  email: string;
 }
