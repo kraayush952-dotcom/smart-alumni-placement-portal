@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Building2, Clock3, IndianRupee, MapPin } from "lucide-react";
 import { Internship } from "@/types/internship";
 
@@ -49,6 +50,15 @@ export default function InternshipCard({
           <IndianRupee className="h-4 w-4" />
           {internship.stipend}
         </p>
+      </div>
+
+      <div className="mt-6 border-t pt-4">
+        <Link
+          href={`/student/internships/${internship.id}`}
+          className="font-medium text-primary hover:underline"
+        >
+          View Details →
+        </Link>
       </div>
     </div>
   );
