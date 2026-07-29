@@ -6,4 +6,8 @@ export interface Internship {
   duration: string;
   stipend: string;
   mode: "Remote" | "Hybrid" | "Onsite";
+
+  description: string;
+  recruiter: string;
+  email: string;
 }
