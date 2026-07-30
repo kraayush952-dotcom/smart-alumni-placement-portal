@@ -17,7 +17,7 @@ export default function RecommendedJobsCard({
   jobs,
 }: RecommendedJobsCardProps) {
   return (
-    <div className="rounded-2xl border border-border bg-background p-6 shadow-sm transition-all duration-300 hover:shadow-lg">
+    <div className="rounded-2xl border border-border bg-background p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/20 hover:shadow-xl">
       <div className="mb-5 flex items-center justify-between">
         <div>
           <h2 className="text-lg font-semibold">
@@ -38,11 +38,11 @@ export default function RecommendedJobsCard({
         {jobs.map((job) => (
           <div
             key={job.id}
-            className="rounded-xl border border-border p-4 transition-all hover:border-primary/30 hover:bg-muted/40"
+            className="group rounded-2xl border border-border p-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary/20 hover:bg-muted/30 hover:shadow-md"
           >
             <div className="flex items-start justify-between">
               <div className="flex gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 font-bold text-primary">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 font-bold text-lg text-primary transition-all duration-300 group-hover:scale-105">
                   {job.company.charAt(0)}
                 </div>
 
@@ -57,7 +57,7 @@ export default function RecommendedJobsCard({
                 </div>
               </div>
 
-              <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+              <span className="rounded-full border border-green-200 bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
                 {job.match}% Match
               </span>
             </div>
@@ -72,13 +72,13 @@ export default function RecommendedJobsCard({
             </div>
 
             <div className="mt-5 flex items-center justify-between">
-              <button className="rounded-xl border border-border p-2 hover:bg-muted">
+              <button className="rounded-xl border border-border p-2 transition-all duration-300 hover:border-primary/20 hover:bg-primary/5">
                 <Bookmark className="h-4 w-4" />
               </button>
 
-              <button className="flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-white hover:opacity-90">
+              <button className="flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
                 Apply Now
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </button>
             </div>
           </div>

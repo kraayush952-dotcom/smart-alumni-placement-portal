@@ -8,14 +8,14 @@ export default function ProfileCompletionCard({
   progress,
 }: ProfileCompletionCardProps) {
   return (
-    <div className="rounded-2xl border border-border bg-background p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-      <div className="flex items-center gap-3">
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
-          <UserCheck className="h-6 w-6 text-primary" />
+    <div className="group rounded-2xl border border-border bg-background p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/20 hover:shadow-xl">
+      <div className="flex items-center gap-4">
+        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 transition-all duration-300 group-hover:scale-110 group-hover:bg-primary/15">
+          <UserCheck className="h-7 w-7 text-primary" />
         </div>
 
         <div>
-          <h3 className="text-lg font-semibold">
+          <h3 className="text-lg font-semibold tracking-tight">
             Profile Completion
           </h3>
 
@@ -25,32 +25,32 @@ export default function ProfileCompletionCard({
         </div>
       </div>
 
-      <div className="mt-6">
-        <div className="mb-2 flex items-center justify-between">
+      <div className="mt-8">
+        <div className="mb-3 flex items-center justify-between">
           <span className="text-sm font-medium text-muted-foreground">
             Completion
           </span>
 
-          <span className="text-sm font-bold text-primary">
+          <span className="text-base font-bold text-primary">
             {progress}%
           </span>
         </div>
 
-        <div className="h-3 w-full rounded-full bg-muted">
+        <div className="h-3 w-full overflow-hidden rounded-full bg-muted">
           <div
-            className="h-3 rounded-full bg-primary transition-all duration-500"
+            className="h-full rounded-full bg-primary transition-all duration-700"
             style={{ width: `${progress}%` }}
           />
         </div>
       </div>
 
-      <p className="mt-5 text-sm text-muted-foreground">
+      <p className="mt-6 text-sm leading-6 text-muted-foreground">
         Complete your profile to improve your chances of getting noticed by recruiters.
       </p>
 
-      <button className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white transition-all hover:opacity-90">
+      <button className="mt-8 flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
         Complete Profile
-        <ArrowRight className="h-4 w-4" />
+        <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
       </button>
     </div>
   );
