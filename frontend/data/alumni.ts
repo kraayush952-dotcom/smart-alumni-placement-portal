@@ -1,0 +1,40 @@
+import { Alumni } from "@/types/alumni";
+
+export const alumni: Alumni[] = [
+  {
+    id: 1,
+    name: "Rahul Sharma",
+    company: "Google",
+    role: "Software Engineer",
+    location: "Bangalore",
+    experience: "3 Years",
+    image: "/alumni/rahul.jpg",
+    skills: ["React", "TypeScript", "Node.js"],
+    linkedin: "https://linkedin.com/in/rahulsharma",
+    featured: true,
+  },
+  {
+    id: 2,
+    name: "Priya Verma",
+    company: "Microsoft",
+    role: "Frontend Engineer",
+    location: "Hyderabad",
+    experience: "4 Years",
+    image: "/alumni/priya.jpg",
+    skills: ["Next.js", "React", "Tailwind CSS"],
+    linkedin: "https://linkedin.com/in/priyaverma",
+    featured: true,
+  },
+  {
+    id: 3,
+    name: "Amit Kumar",
+    company: "Amazon",
+    role: "Backend Engineer",
+    location: "Chennai",
+    experience: "2 Years",
+    image: "/alumni/amit.jpg",
+    skills: ["Java", "Spring Boot", "AWS"],
+    linkedin: "https://linkedin.com/in/amitkumar",
+    featured: false,
+  },
+];
