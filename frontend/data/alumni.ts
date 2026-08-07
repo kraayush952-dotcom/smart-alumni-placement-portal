@@ -12,6 +12,9 @@ export const alumni: Alumni[] = [
     skills: ["React", "TypeScript", "Node.js"],
     linkedin: "https://linkedin.com/in/rahulsharma",
     featured: true,
+    career: ["Infosys", "Microsoft", "Google"],
+    achievements: ["Google Developer Expert", "Hackathon Winner"],
+    email: "rahul@google.com",
   },
   {
     id: 2,
@@ -23,7 +26,10 @@ export const alumni: Alumni[] = [
     image: "/alumni/priya.jpg",
     skills: ["Next.js", "React", "Tailwind CSS"],
     linkedin: "https://linkedin.com/in/priyaverma",
-    featured: true,
+    featured: false,
+    career: ["TCS", "Adobe", "Microsoft"],
+    achievements: ["Microsoft MVP", "Women Tech Speaker"],
+    email: "priya@microsoft.com",
   },
   {
     id: 3,
@@ -36,5 +42,8 @@ export const alumni: Alumni[] = [
     skills: ["Java", "Spring Boot", "AWS"],
     linkedin: "https://linkedin.com/in/amitkumar",
     featured: false,
+    career: ["Capgemini", "Amazon"],
+    achievements: ["AWS Certified Developer"],
+    email: "amit@amazon.com",
   },
 ];

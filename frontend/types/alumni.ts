@@ -9,4 +9,7 @@ export interface Alumni {
   skills: string[];
   linkedin: string;
   featured: boolean;
+  career: string[];
+  achievements: string[];
+  email: string;
 }
