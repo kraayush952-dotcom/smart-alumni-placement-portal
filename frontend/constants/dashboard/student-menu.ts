@@ -39,6 +39,11 @@ export const studentMenu: SidebarMenuGroup[] = [
         icon: "User",
       },
       {
+        title: "Resume",
+        href: "/student/resume",
+        icon: "FileText",
+      },
+      {
         title: "Settings",
         href: "/student/settings",
         icon: "Settings",

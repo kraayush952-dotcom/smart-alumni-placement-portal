@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 import {
   ArrowLeft,
   Building2,
@@ -9,6 +12,7 @@ import {
 } from "lucide-react";
 
 import { Alumni } from "@/types/alumni";
+import RequestMentorshipModal from "@/components/mentorship/RequestMentorshipModal";
 
 interface AlumniDetailsProps {
   person: Alumni;
@@ -17,6 +21,8 @@ interface AlumniDetailsProps {
 export default function AlumniDetails({
   person,
 }: AlumniDetailsProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <main className="min-h-screen bg-gray-50">
       <section className="mx-auto max-w-5xl px-6 py-10">
@@ -146,6 +152,7 @@ export default function AlumniDetails({
             <h2 className="text-xl font-semibold">
               Career Journey
             </h2>
+
             <div className="mt-5 space-y-4">
               {person.career.map((company, index) => (
                 <div
@@ -154,10 +161,12 @@ export default function AlumniDetails({
                 >
                   <div className="flex flex-col items-center">
                     <div className="h-4 w-4 rounded-full bg-primary" />
+
                     {index !== person.career.length - 1 && (
                       <div className="mt-1 h-10 w-0.5 bg-primary/30" />
                     )}
                   </div>
+
                   <div className="pb-6">
                     <p className="font-semibold">
                       {company}
@@ -167,11 +176,13 @@ export default function AlumniDetails({
               ))}
             </div>
           </div>
+
           {/* Achievements */}
           <div className="mt-10">
             <h2 className="text-xl font-semibold">
               Achievements
             </h2>
+
             <div className="mt-5 space-y-3">
               {person.achievements.map((achievement) => (
                 <div
@@ -184,17 +195,21 @@ export default function AlumniDetails({
               ))}
             </div>
           </div>
+
           {/* Contact */}
           <div className="mt-10 rounded-2xl border bg-muted/30 p-6">
             <h2 className="text-xl font-semibold">
               Contact
             </h2>
+
             <p className="mt-4 text-sm text-muted-foreground">
               Email
             </p>
+
             <p className="font-medium">
               {person.email}
             </p>
+
             <a
               href={person.linkedin}
               target="_blank"
@@ -204,20 +219,36 @@ export default function AlumniDetails({
               Visit LinkedIn
             </a>
           </div>
+
           {/* Mentorship */}
           <div className="mt-10 rounded-2xl border border-primary/20 bg-primary/5 p-8 text-center">
             <h2 className="text-2xl font-bold">
               Interested in Mentorship?
             </h2>
+
             <p className="mt-3 text-muted-foreground">
-              Connect with {person.name} and learn from their professional journey.
+              Connect with {person.name} and learn from their
+              professional journey.
             </p>
-            <button className="mt-6 rounded-xl bg-primary px-6 py-3 font-semibold text-white transition hover:opacity-90">
+
+            <button
+              type="button"
+              onClick={() => setIsModalOpen(true)}
+              className="mt-6 rounded-xl bg-primary px-6 py-3 font-semibold text-white transition hover:opacity-90"
+            >
               Request Mentorship
             </button>
           </div>
         </div>
       </section>
+
+      {/* Request Mentorship Modal */}
+      {isModalOpen && (
+        <RequestMentorshipModal
+          mentorName={person.name}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </main>
   );
 }

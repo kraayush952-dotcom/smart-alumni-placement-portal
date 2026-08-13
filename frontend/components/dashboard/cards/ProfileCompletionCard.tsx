@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowRight, UserCheck } from "lucide-react";
 
 interface ProfileCompletionCardProps {
@@ -48,10 +49,13 @@ export default function ProfileCompletionCard({
         Complete your profile to improve your chances of getting noticed by recruiters.
       </p>
 
-      <button className="mt-8 flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
+      <Link
+        href="/student/profile"
+        className="mt-8 flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+      >
         Complete Profile
         <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-      </button>
+      </Link>
     </div>
   );
 }

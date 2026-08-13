@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import {
   ArrowRight,
@@ -90,12 +91,12 @@ export default function MentorCard({
 
         {/* Actions */}
         <div className="mt-6 flex items-center justify-between gap-3">
-          <button
-            type="button"
+          <Link
+            href={`/student/mentorship/${mentor.id}`}
             className="rounded-xl border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-muted"
           >
             View Profile
-          </button>
+          </Link>
 
           <button
             type="button"
@@ -118,4 +119,4 @@ export default function MentorCard({
       )}
     </>
   );
-}
+} 
