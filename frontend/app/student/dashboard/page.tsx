@@ -5,6 +5,7 @@ import {
   FileText,
 } from "lucide-react";
 
+import RoleGuard from "@/components/auth/RoleGuard";
 import DashboardLayout from "@/components/dashboard/layout/DashboardLayout";
 import ProfileCompletionCard from "@/components/dashboard/cards/ProfileCompletionCard";
 import StatCard from "@/components/dashboard/cards/StatCard";
@@ -77,74 +78,76 @@ export default function StudentDashboardPage() {
   ];
 
   return (
-    <DashboardLayout menu={studentMenu}>
-      <div className="space-y-8">
-        {/* Header */}
-        <div>
-          <h1 className="text-4xl font-bold tracking-tight">
-            Welcome Back 
-          </h1>
+    <RoleGuard allowedRole="student">
+      <DashboardLayout menu={studentMenu}>
+        <div className="space-y-8">
+          {/* Header */}
+          <div>
+            <h1 className="text-4xl font-bold tracking-tight">
+              Welcome Back 
+            </h1>
 
-          <p className="mt-2 text-muted-foreground">
-            Here's an overview of your placement journey.
-          </p>
-        </div>
-
-        {/* Stats */}
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          <StatCard
-            title="Jobs Applied"
-            value={12}
-            description="Applications submitted"
-            icon={Briefcase}
-          />
-
-          <StatCard
-            title="Saved Jobs"
-            value={8}
-            description="Ready to apply"
-            icon={Bookmark}
-          />
-
-          <StatCard
-            title="Upcoming Interviews"
-            value={3}
-            description="Scheduled this week"
-            icon={CalendarDays}
-          />
-
-          <StatCard
-            title="Active Applications"
-            value={6}
-            description="Currently under review"
-            icon={FileText}
-          />
-        </div>
-
-        {/* Bottom Section */}
-        <div className="space-y-6">
-          {/* Row 1 */}
-          <div className="grid gap-6 lg:grid-cols-3">
-            <ProfileCompletionCard progress={85} />
-
-            <div className="lg:col-span-2">
-              <ApplicationTable applications={applications} />
-            </div>
+            <p className="mt-2 text-muted-foreground">
+              Here's an overview of your placement journey.
+            </p>
           </div>
 
-          {/* Row 2 */}
-          <div className="grid gap-6 lg:grid-cols-3">
-            <NotificationsCard notifications={notifications} />
+          {/* Stats */}
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            <StatCard
+              title="Jobs Applied"
+              value={12}
+              description="Applications submitted"
+              icon={Briefcase}
+            />
 
-            <div className="lg:col-span-2">
-              <RecommendedJobsCard jobs={recommendedJobs} />
-            </div>
+            <StatCard
+              title="Saved Jobs"
+              value={8}
+              description="Ready to apply"
+              icon={Bookmark}
+            />
+
+            <StatCard
+              title="Upcoming Interviews"
+              value={3}
+              description="Scheduled this week"
+              icon={CalendarDays}
+            />
+
+            <StatCard
+              title="Active Applications"
+              value={6}
+              description="Currently under review"
+              icon={FileText}
+            />
           </div>
 
-          {/* Row 3 */}
-          <QuickActionsCard />
+          {/* Bottom Section */}
+          <div className="space-y-6">
+            {/* Row 1 */}
+            <div className="grid gap-6 lg:grid-cols-3">
+              <ProfileCompletionCard progress={85} />
+
+              <div className="lg:col-span-2">
+                <ApplicationTable applications={applications} />
+              </div>
+            </div>
+
+            {/* Row 2 */}
+            <div className="grid gap-6 lg:grid-cols-3">
+              <NotificationsCard notifications={notifications} />
+
+              <div className="lg:col-span-2">
+                <RecommendedJobsCard jobs={recommendedJobs} />
+              </div>
+            </div>
+
+            {/* Row 3 */}
+            <QuickActionsCard />
+          </div>
         </div>
-      </div>
-    </DashboardLayout>
+      </DashboardLayout>
+    </RoleGuard>
   );
 }

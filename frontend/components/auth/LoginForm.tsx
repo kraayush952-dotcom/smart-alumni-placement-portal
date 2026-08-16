@@ -48,7 +48,13 @@ export default function LoginForm() {
       const response = await authService.login(data);
 
       localStorage.setItem("token", response.token);
-      localStorage.setItem("user", JSON.stringify(response.data));
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          ...response.data,
+          role: data.role,
+        })
+      );
 
       switch (data.role) {
         case "Student":

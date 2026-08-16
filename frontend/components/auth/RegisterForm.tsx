@@ -13,10 +13,14 @@ import PasswordInput from "@/components/auth/PasswordInput";
 import { authService } from "@/services/auth.service";
 import { useState } from "react";
 import Link from "next/link";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const roles = ["Student", "Alumni"] as const;
 
 export default function RegisterForm() {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -52,8 +56,15 @@ export default function RegisterForm() {
       const response = await authService.register(data);
 
       console.log("Register Success:", response);
+      toast.success("Account created successfully!", {
+        description: "Redirecting you to the login page...",
+      });
+      setTimeout(() => {
+        router.push("/login");
+      }, 1000);
 
     } catch (error: any) {
+      console.error("REGISTER ERROR:", error);
       setApiError(
         error?.response?.data?.message || "Registration failed"
       );
