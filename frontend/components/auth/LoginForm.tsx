@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import RoleToggle from "@/components/auth/RoleToggle";
@@ -161,12 +162,12 @@ export default function LoginForm() {
       <div className="text-center">
         <p className="text-sm text-muted-foreground">
           Don't have an account?{" "}
-          <button
-            type="button"
+          <Link
+            href="/register"
             className="font-semibold text-primary transition-colors hover:underline"
           >
             Create Account
-          </button>
+          </Link>
         </p>
       </div>
 

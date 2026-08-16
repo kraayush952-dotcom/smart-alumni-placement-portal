@@ -12,6 +12,7 @@ import RoleToggle from "@/components/auth/RoleToggle";
 import PasswordInput from "@/components/auth/PasswordInput";
 import { authService } from "@/services/auth.service";
 import { useState } from "react";
+import Link from "next/link";
 
 const roles = ["Student", "Alumni"] as const;
 
@@ -275,12 +276,12 @@ export default function RegisterForm() {
       <div className="text-center">
         <p className="text-sm text-muted-foreground">
           Already have an account?{" "}
-          <button
-            type="button"
+          <Link
+            href="/login"
             className="font-semibold text-primary transition-colors hover:underline"
           >
             Sign In
-          </button>
+          </Link>
         </p>
       </div>
 
