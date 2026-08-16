@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   ArrowRight,
   Briefcase,
@@ -10,6 +11,7 @@ interface QuickAction {
   title: string;
   description: string;
   icon: React.ElementType;
+  href: string;
 }
 
 const actions: QuickAction[] = [
@@ -17,21 +19,25 @@ const actions: QuickAction[] = [
     title: "Apply Jobs",
     description: "Explore latest opportunities",
     icon: Briefcase,
+    href: "/student/jobs",
   },
   {
     title: "Upload Resume",
     description: "Keep your resume updated",
     icon: FileText,
+    href: "/student/resume",
   },
   {
     title: "Find Mentor",
     description: "Connect with alumni mentors",
     icon: GraduationCap,
+    href: "/student/mentorship",
   },
   {
     title: "Complete Profile",
     description: "Increase profile visibility",
     icon: UserRound,
+    href: "/student/profile",
   },
 ];
 
@@ -53,8 +59,9 @@ export default function QuickActionsCard() {
           const Icon = action.icon;
 
           return (
-            <button
+            <Link
               key={action.title}
+              href={action.href}
               className="flex w-full items-center justify-between rounded-xl border border-border p-4 transition-all hover:bg-muted/50 hover:border-primary/30"
             >
               <div className="flex items-center gap-3">
@@ -74,7 +81,7 @@ export default function QuickActionsCard() {
               </div>
 
               <ArrowRight className="h-4 w-4 text-muted-foreground" />
-            </button>
+            </Link>
           );
         })}
       </div>

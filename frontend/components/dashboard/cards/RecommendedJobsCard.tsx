@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowRight, Bookmark, MapPin } from "lucide-react";
 
 interface Job {
@@ -29,9 +30,12 @@ export default function RecommendedJobsCard({
           </p>
         </div>
 
-        <button className="text-sm font-medium text-primary hover:underline">
+        <Link
+          href="/student/jobs"
+          className="text-sm font-medium text-primary hover:underline"
+        >
           View All
-        </button>
+        </Link>
       </div>
 
       <div className="space-y-4">
@@ -76,10 +80,13 @@ export default function RecommendedJobsCard({
                 <Bookmark className="h-4 w-4" />
               </button>
 
-              <button className="flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
+              <Link
+                href={`/student/jobs/${job.id}`}
+                className="flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+              >
                 Apply Now
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </button>
+              </Link>
             </div>
           </div>
         ))}
