@@ -5,6 +5,7 @@ const {
   createStudent,
   getStudentByEmail,
   getStudentById,
+  updateStudentProfile,
 } = require("../models/studentModel");
 
 const registerStudent = async (req, res) => {
@@ -139,8 +140,60 @@ const getStudentProfile = async (req, res) => {
   }
 };
 
+const updateStudentProfileController = async (req, res) => {
+  try {
+    const {
+      full_name,
+      mobile,
+      batch_year,
+      department,
+    } = req.body;
+
+    if (
+      !full_name ||
+      !mobile ||
+      !batch_year ||
+      !department
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "All profile fields are required",
+      });
+    }
+
+    const updatedStudent = await updateStudentProfile(
+      req.user.id,
+      full_name,
+      mobile,
+      batch_year,
+      department
+    );
+
+    if (!updatedStudent) {
+      return res.status(404).json({
+        success: false,
+        message: "Student not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Profile updated successfully",
+      data: updatedStudent,
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   registerStudent,
   loginStudent,
   getStudentProfile,
+  updateStudentProfileController,
 };

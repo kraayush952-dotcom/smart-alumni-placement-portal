@@ -66,9 +66,48 @@ const getStudentById = async (id) => {
   return result.rows[0];
 };
 
+const updateStudentProfile = async (
+  id,
+  full_name,
+  mobile,
+  batch_year,
+  department
+) => {
+  const query = `
+    UPDATE students
+    SET
+      full_name = $2,
+      mobile = $3,
+      batch_year = $4,
+      department = $5
+    WHERE id = $1
+    RETURNING
+      id,
+      registration_number,
+      full_name,
+      email,
+      mobile,
+      batch_year,
+      department;
+  `;
+
+  const values = [
+    id,
+    full_name,
+    mobile,
+    batch_year,
+    department,
+  ];
+
+  const result = await pool.query(query, values);
+
+  return result.rows[0];
+};
+
 module.exports = {
   createStudent,
   getStudentByEmail,
   getStudentByMobile,
   getStudentById,
+  updateStudentProfile,
 };

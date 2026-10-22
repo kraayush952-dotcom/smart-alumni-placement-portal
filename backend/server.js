@@ -5,8 +5,6 @@ require("dotenv").config();
 const pool = require("./config/db");
 const errorHandler = require("./middleware/errorHandler");
 
-const app = express();
-
 const authRoutes = require("./routes/authRoutes");
 const jobRoutes = require("./routes/jobRoutes");
 const internshipRoutes = require("./routes/internshipRoutes");
@@ -14,6 +12,10 @@ const studentRoutes = require("./routes/studentRoutes");
 const alumniRoutes = require("./routes/alumniRoutes");
 const mentorshipRoutes = require("./routes/mentorshipRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const applicationRoutes = require("./routes/applicationRoutes");
+const resumeRoutes = require("./routes/resumeRoutes");
+
+const app = express();
 
 app.use(cors());
 app.use(express.json());
@@ -25,6 +27,8 @@ app.use("/api/students", studentRoutes);
 app.use("/api/alumni", alumniRoutes);
 app.use("/api/mentorship", mentorshipRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/applications", applicationRoutes);
+app.use("/api/resumes", resumeRoutes);
 
 app.get("/", (req, res) => {
   res.send("Smart Alumni Backend Running 🚀");
