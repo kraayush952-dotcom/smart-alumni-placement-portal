@@ -38,11 +38,11 @@ const createInternshipPost = async (req, res) => {
       data: internship,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Failed to create internship", error.code || error.name);
 
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Unable to create internship",
     });
   }
 };
@@ -130,7 +130,7 @@ const updateInternshipPost = async (req, res) => {
       });
     }
 
-    if (internshipOwner.alumni_id !== req.user.id) {
+    if (String(internshipOwner.alumni_id) !== String(req.user.id)) {
       return res.status(403).json({
         success: false,
         message:
@@ -140,6 +140,7 @@ const updateInternshipPost = async (req, res) => {
 
     const internship = await updateInternship(
       req.params.id,
+      req.user.id,
       company_name,
       internship_title,
       internship_description,
@@ -148,17 +149,24 @@ const updateInternshipPost = async (req, res) => {
       application_link
     );
 
+    if (!internship) {
+      return res.status(404).json({
+        success: false,
+        message: "Internship not found",
+      });
+    }
+
     res.status(200).json({
       success: true,
       message: "Internship updated successfully",
       data: internship,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Failed to update internship", error.code || error.name);
 
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Unable to update internship",
     });
   }
 };

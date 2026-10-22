@@ -3,9 +3,12 @@ const express = require("express");
 const router = express.Router();
 
 const authMiddleware = require("../middleware/authMiddleware");
+const requireAlumniRole = require("../middleware/alumniMiddleware");
+const { param } = require("express-validator");
 
 const {
   createInternshipValidation,
+  updateInternshipValidation,
 } = require("../validations/internshipValidation");
 
 const validate = require(
@@ -22,6 +25,7 @@ const {
 router.post(
   "/",
   authMiddleware,
+  requireAlumniRole,
   createInternshipValidation,
   validate,
   createInternshipPost
@@ -40,6 +44,12 @@ router.get(
 router.put(
   "/:id",
   authMiddleware,
+  requireAlumniRole,
+  param("id")
+    .isInt({ min: 1 })
+    .withMessage("Internship ID must be a positive integer"),
+  updateInternshipValidation,
+  validate,
   updateInternshipPost
 );
 

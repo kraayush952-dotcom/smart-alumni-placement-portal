@@ -36,4 +36,5 @@ const createInternshipValidation = [
 
 module.exports = {
   createInternshipValidation,
+  updateInternshipValidation: createInternshipValidation,
 };

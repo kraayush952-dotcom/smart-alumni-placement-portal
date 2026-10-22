@@ -49,6 +49,7 @@ const getAllInternships = async (
     `
     SELECT *
     FROM internships
+    WHERE status = 'ACTIVE'
     ORDER BY created_at DESC
     LIMIT $1
     OFFSET $2
@@ -64,6 +65,7 @@ const getTotalInternships = async () => {
     `
     SELECT COUNT(*) AS total
     FROM internships
+    WHERE status = 'ACTIVE'
     `
   );
 
@@ -76,9 +78,12 @@ const searchInternships = async (search) => {
     SELECT *
     FROM internships
     WHERE
-      company_name ILIKE $1
-      OR internship_title ILIKE $1
-      OR duration ILIKE $1
+      status = 'ACTIVE'
+      AND (
+        company_name ILIKE $1
+        OR internship_title ILIKE $1
+        OR duration ILIKE $1
+      )
     ORDER BY created_at DESC
     `,
     [`%${search}%`]
@@ -113,6 +118,7 @@ const getInternshipOwner = async (id) => {
 
 const updateInternship = async (
   id,
+  alumniId,
   company_name,
   internship_title,
   internship_description,
@@ -123,18 +129,20 @@ const updateInternship = async (
   const query = `
     UPDATE internships
     SET
-      company_name = $2,
-      internship_title = $3,
-      internship_description = $4,
-      duration = $5,
-      stipend = $6,
-      application_link = $7
+      company_name = $3,
+      internship_title = $4,
+      internship_description = $5,
+      duration = $6,
+      stipend = $7,
+      application_link = $8
     WHERE id = $1
+      AND alumni_id = $2
     RETURNING *;
   `;
 
   const values = [
     id,
+    alumniId,
     company_name,
     internship_title,
     internship_description,
